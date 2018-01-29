@@ -4,6 +4,7 @@
   },
   "devDependencies": {
     "wdio-browserstack-service": "^0.1.14",
+    "wdio-dot-reporter": "0.0.9",
     "wdio-jasmine-framework": "^0.3.2"
   }
 }

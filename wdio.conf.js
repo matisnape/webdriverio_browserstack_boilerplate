@@ -1,15 +1,13 @@
 exports.config = {
 
-    user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
-    key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
+    user: process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY || BROWSERSTACK_ACCESS_KEY,
 
-    updateJob: false,
     specs: [
         './test/**/*.js'
     ],
     exclude: [],
-
-    maxInstances: 10,
+    maxInstances: 1,
     capabilities: [
         {
             'os': 'Windows',
@@ -36,7 +34,8 @@ exports.config = {
         }
     ],
     sync: true,
-    reporters: ['dot'],
+    //
+    // Level of logging verbosity: silent | verbose | command | data | result | error
     logLevel: 'verbose',
     coloredLogs: true,
     deprecationWarnings: true,
@@ -46,11 +45,13 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 3,
+    services: ['browserstack'],
     framework: 'jasmine',
+    reporters: ['dot'],
     jasmineNodeOpts: {
-        defaultTimeoutInterval: 10000,
+        defaultTimeoutInterval: 10000*10*9000,
         expectationResultHandler: function(passed, assertion) {
             // do something
         }
-    },
+    }
 }
