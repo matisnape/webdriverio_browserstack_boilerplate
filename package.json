@@ -3,6 +3,7 @@
     "webdriverio": "^4.10.1"
   },
   "devDependencies": {
+    "wdio-browserstack-service": "^0.1.14",
     "wdio-jasmine-framework": "^0.3.2"
   }
 }

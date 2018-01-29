@@ -3,8 +3,9 @@ exports.config = {
     user: process.env.BROWSERSTACK_USERNAME || 'BROWSERSTACK_USERNAME',
     key: process.env.BROWSERSTACK_ACCESS_KEY || 'BROWSERSTACK_ACCESS_KEY',
 
+    updateJob: false,
     specs: [
-        './test/specs/**/*.js'
+        './test/**/*.js'
     ],
     exclude: [],
 
@@ -35,8 +36,7 @@ exports.config = {
         }
     ],
     sync: true,
-    //
-    // Level of logging verbosity: silent | verbose | command | data | result | error
+    reporters: ['dot'],
     logLevel: 'verbose',
     coloredLogs: true,
     deprecationWarnings: true,
