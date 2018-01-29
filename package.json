@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "webdriverio": "^4.10.1"
+  },
+  "devDependencies": {
+    "wdio-jasmine-framework": "^0.3.2"
+  }
+}
