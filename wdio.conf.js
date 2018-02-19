@@ -1,10 +1,13 @@
 const util = require('util');
 const request = require("request");
+const bs_user = process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_USERNAME;
+const bs_key = process.env.BROWSERSTACK_ACCESS_KEY || BROWSERSTACK_ACCESS_KEY;
 
 exports.config = {
 
-    user: process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_USERNAME,
-    key: process.env.BROWSERSTACK_ACCESS_KEY || BROWSERSTACK_ACCESS_KEY,
+    // browserstack needs these properties here
+    user: bs_user,
+    key: bs_key,
 
     updateJob: false,
     specs: [
@@ -19,8 +22,8 @@ exports.config = {
             'os_version': 'Sierra',
             'browser': 'Chrome',
             'browser_version': '60.0',
-            'resolution': '1024x768' ,
-            build: 'webdriver-browserstack2',
+            'resolution': '1280x960' ,
+            build: 'webdriver-browserstack-macos',
             'chromeOptions': {
                 'prefs': {
                     'credentials_enable_service': false,
@@ -30,10 +33,17 @@ exports.config = {
                     }
                 }
             }
+        },
+        {
+            'os': 'Windows',
+            'os_version': '10',
+            'browser': 'Chrome',
+            'browser_version': '64.0',
+            'resolution': '1366x768',
+            build: 'webdriver-browserstack-win'
         }
     ],
     sync: true,
-    //
     // Level of logging verbosity: silent | verbose | command | data | result | error
     logLevel: 'verbose',
     coloredLogs: true,
@@ -52,9 +62,11 @@ exports.config = {
         expectationResultHandler: function(passed, assertion) {
             if (passed === false) {
                 console.log(util.inspect(passed, { showHidden: true, depth: null }));
+                // you need to define the url here, because request lib apparently cannot into interpolation on the fly
+                let url = "https://" + bs_user + ":" + bs_key + "@api.browserstack.com/automate/sessions/"+ browser.sessionId +".json"
 
                 request({
-                    uri: "https://" + user + ":" + key + "@api.browserstack.com/automate/sessions/"+ browser.sessionId +".json",
+                    uri: url,
                     method:"PUT",
                     form:{
                         "status":"error",
@@ -62,7 +74,6 @@ exports.config = {
                     }
                 });
             };
-            console.log(user, key, browser.sessionId, uri)
         }
     }
 };
