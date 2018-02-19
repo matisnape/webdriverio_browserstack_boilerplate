@@ -2,8 +2,10 @@
 
 ## Setup & Run
 
-`yarn install`
-`./node_modules/.bin/wdio wdio.conf.js`
+```
+yarn install
+./node_modules/.bin/wdio wdio.conf.js
+```
 
 
 ## Problems
