@@ -1,3 +1,6 @@
+const util = require('util');
+const request = require("request");
+
 exports.config = {
 
     user: process.env.BROWSERSTACK_USERNAME || BROWSERSTACK_USERNAME,
@@ -10,20 +13,13 @@ exports.config = {
     exclude: [],
     maxInstances: 1,
     capabilities: [
-        // {
-        //     'os': 'Windows',
-        //     'os_version': '7',
-        //     'browser': 'IE',
-        //     'browser_version': '11.0',
-        //     'resolution': '1280x1024',
-        //     build: 'webdriver-browserstack2'
-        // },
+
         {
             'os': 'OS X',
             'os_version': 'Sierra',
             'browser': 'Chrome',
-            'browser_version': '56.0',
-            'resolution': '1280x1024' ,
+            'browser_version': '60.0',
+            'resolution': '1024x768' ,
             build: 'webdriver-browserstack2',
             'chromeOptions': {
                 'prefs': {
@@ -54,22 +50,19 @@ exports.config = {
     jasmineNodeOpts: {
         defaultTimeoutInterval: 10000*10*9000,
         expectationResultHandler: function(passed, assertion) {
-            // do something
-        }
-    },
-    afterTest: function (test) {
-        if (test.passed) {
-            return console.log(test);
-        } else if (test.failed) {
-            var request = require("request");
-            request({
-                uri: "https://" + BROWSERSTACK_USERNAME + ":" + BROWSERSTACK_ACCESS_KEY + "@api.browserstack.com/automate/sessions/<session-id>.json",
-                method:"PUT",
-                form:{
-                    "status":"error",
-                    "reason":"assertion failed"
-                }
-            });
+            if (passed === false) {
+                console.log(util.inspect(passed, { showHidden: true, depth: null }));
+
+                request({
+                    uri: "https://" + user + ":" + key + "@api.browserstack.com/automate/sessions/"+ browser.sessionId +".json",
+                    method:"PUT",
+                    form:{
+                        "status":"error",
+                        "reason":""
+                    }
+                });
+            };
+            console.log(user, key, browser.sessionId, uri)
         }
     }
 };
