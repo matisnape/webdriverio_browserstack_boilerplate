@@ -76,5 +76,8 @@ exports.config = {
                 });
             };
         }
-    }
+    },
+    afterTest: function (test) {
+        browser.reload();
+    },
 };
