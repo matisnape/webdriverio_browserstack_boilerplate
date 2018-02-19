@@ -23,7 +23,7 @@ exports.config = {
             'browser': 'Chrome',
             'browser_version': '60.0',
             'resolution': '1280x960' ,
-            build: 'webdriver-browserstack-macos',
+            build: 'webdriver-bs-macos ' + Date.now(),
             'chromeOptions': {
                 'prefs': {
                     'credentials_enable_service': false,
@@ -40,7 +40,7 @@ exports.config = {
             'browser': 'Chrome',
             'browser_version': '64.0',
             'resolution': '1366x768',
-            build: 'webdriver-browserstack-win'
+            build: 'webdriver-bs-win ' + Date.now()
         }
     ],
     sync: true,
@@ -61,7 +61,8 @@ exports.config = {
         defaultTimeoutInterval: 10000*10*9000,
         expectationResultHandler: function(passed, assertion) {
             if (passed === false) {
-                console.log(util.inspect(passed, { showHidden: true, depth: null }));
+                console.log(util.inspect(passed, { showHidden: false, depth: null }));
+                console.log(util.inspect(assertion, { showHidden: false, depth: null }));
                 // you need to define the url here, because request lib apparently cannot into interpolation on the fly
                 let url = "https://" + bs_user + ":" + bs_key + "@api.browserstack.com/automate/sessions/"+ browser.sessionId +".json"
 
